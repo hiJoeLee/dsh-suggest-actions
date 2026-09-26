@@ -1,6 +1,6 @@
 {
   "name": "dsh-suggest-actions",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "类 Trae 体验，在 AI 回复后提供候选建议，点击后发送指令。Trae-style: candidate suggestions after each AI reply; click one to send the instruction.",
   "type": "module",
   "main": "lib/index.js",
@@ -43,5 +43,13 @@
     "react": {
       "optional": true
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiJoeLee/dsh-suggest-actions.git"
+  },
+  "homepage": "https://github.com/hiJoeLee/dsh-suggest-actions#readme",
+  "bugs": {
+    "url": "https://github.com/hiJoeLee/dsh-suggest-actions/issues"
   }
 }

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>suggest-actions 字号档位</title>
+<style>
+  body {
+    margin: 0; padding: 22px 26px; background: #fff; color: #1a1a1a;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* DSH 正文的实际观感：16px / 1.65 */
+  .prose { font-size: 16px; line-height: 1.65; margin: 0 0 10px; max-width: 640px; }
+  .case { margin-bottom: 24px; }
+  .label { font-size: 12px; color: #999; margin-bottom: 10px; }
+  .stack { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; box-sizing: border-box;
+         border: 0; border-radius: 10px; font-family: inherit; text-align: left; cursor: pointer;
+         background: #2631480f; color: #1a1a1a; line-height: 1.5; }
+  .arrow { flex: none; color: #b0b0b0; font-size: .92em; }
+
+  /* A：当前线上 */
+  .a { font-size: 15px; padding: 12px 16px; }
+  /* B：小一档 */
+  .b { font-size: 14px; padding: 11px 15px; }
+  /* C：再小一档 */
+  .c { font-size: 13px; padding: 10px 14px; }
+  /* D：最小一档 */
+  .d { font-size: 12px; padding: 9px 13px; }
+</style>
+</head>
+<body>
+
+  <p class="prose">改完了，两处都画：工具卡片里保留一份（过程展开时看得到），另加一份画在点赞那排。这就是正文的观感，下面每档按钮都拿它当比例尺。</p>
+
+  <div class="case">
+    <div class="label">A —— 15px（当前线上，跟正文几乎一样大）</div>
+    <div class="stack">
+      <button class="btn a">好的，提交吧 <span class="arrow">→</span></button>
+      <button class="btn a">帮我提交并重启服务 <span class="arrow">→</span></button>
+    </div>
+  </div>
+
+  <div class="case">
+    <div class="label">B —— 14px（小一档，正文的五分之四左右）</div>
+    <div class="stack">
+      <button class="btn b">好的，提交吧 <span class="arrow">→</span></button>
+      <button class="btn b">帮我提交并重启服务 <span class="arrow">→</span></button>
+    </div>
+  </div>
+
+  <div class="case">
+    <div class="label">C —— 13px</div>
+    <div class="stack">
+      <button class="btn c">好的，提交吧 <span class="arrow">→</span></button>
+      <button class="btn c">帮我提交并重启服务 <span class="arrow">→</span></button>
+    </div>
+  </div>
+
+  <div class="case">
+    <div class="label">D —— 12px（最小，接近标注文字的大小）</div>
+    <div class="stack">
+      <button class="btn d">好的，提交吧 <span class="arrow">→</span></button>
+      <button class="btn d">帮我提交并重启服务 <span class="arrow">→</span></button>
+    </div>
+  </div>
+
+</body>
+</html>

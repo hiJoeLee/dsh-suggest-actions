@@ -49,3 +49,29 @@ dsh plugin --profile desktop add dsh-suggest-actions
 ## 许可
 
 MIT
+
+## 配置
+
+在 profile 的 `cordis.patch.yml` 里本插件那一行加 `config`：
+
+```yaml
+- id: suggest-actions
+  name: 'dsh-suggest-actions'
+  config:
+    maxActions: 3     # 单次最多显示几条建议（1–6），超出的丢弃
+```
+
+## 开发
+
+```bash
+pnpm test      # 22 个单测，零外部依赖（node:test）
+```
+
+代码分工：
+
+- `lib/normalize.js` —— host 侧的清洗规则（空白、去重、上限），纯函数、可单测
+- `lib/index.js` —— 注册工具、读配置，把参数交给 normalize
+- `lib/parse.js` —— 客户端解析逻辑的**参照实现**
+- `lib/client.js` —— 浏览器侧。里面 `#region sync:parse-actions` 标记的那段是 `lib/parse.js` 的**逐字副本**（客户端 bundle 必须自包含，host 只登记入口文件、相对 import 取不到）；`test/sync.test.mjs` 用同一批输入比对两边，漂移即测试失败
+
+边界行为都有测试锁定：非数组、坏 JSON、空白 label、重复 label、超限条数、`maxActions` 越界。UI 侧另有：按钮最多 520px 宽、文案最多两行（悬停显示全文）、点击后 0.9 秒防连点、每个建议只显示一次（历史轮次重新挂载时不会捡到最新建议）。

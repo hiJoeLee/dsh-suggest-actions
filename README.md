@@ -1,5 +1,7 @@
 # dsh-suggest-actions（建议按钮）
 
+<img src="assets/icon.svg" width="96" alt="图标">
+
 给 DeepSeek Harness 的每条回复末尾加一排**可点的下一步建议**。点一下，那句话就直接作为你的消息发出去——不用自己打。
 
 它解决的是"我读完了，接下来想让它干 A 还是 B"这件事：与其自己组织语言，不如直接点。

@@ -1,0 +1,11 @@
+<!--
+  dsh-suggest-actions 图标 —— 方案 A「一列渐隐建议」（2026-09-26 由用户选定）
+  品牌蓝取自 DSH 主题里的 --dsw-alias-brand-primary（#4176e6），
+  所以放进界面不会有异物感。三条圆角条向下渐隐，暗示"一串可点的备选"。
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="dsh-suggest-actions">
+  <rect width="128" height="128" rx="28" fill="#4176e6"/>
+  <rect x="26" y="36" width="76" height="15" rx="7.5" fill="#ffffff" opacity="0.95"/>
+  <rect x="26" y="57" width="60" height="15" rx="7.5" fill="#ffffff" opacity="0.68"/>
+  <rect x="26" y="78" width="44" height="15" rx="7.5" fill="#ffffff" opacity="0.42"/>
+</svg>

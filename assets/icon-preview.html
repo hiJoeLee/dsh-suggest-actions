@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>图标方案</title>
+<style>
+  body { margin: 0; padding: 26px 30px; background: #fff; color: #1a1a1a;
+         font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; -webkit-font-smoothing: antialiased; }
+  h2 { font-size: 15px; font-weight: 600; margin: 0 0 4px; }
+  .hint { font-size: 12px; color: #8a8f98; margin: 0 0 14px; }
+  .case { margin-bottom: 30px; padding-bottom: 22px; border-bottom: 1px solid #eee; }
+  .sizes { display: flex; gap: 22px; align-items: flex-end; }
+  .sizes figure { margin: 0; text-align: center; }
+  .sizes figcaption { font-size: 11px; color: #9aa0a6; margin-top: 6px; }
+  .dark { background: #14161c; padding: 18px 22px; border-radius: 14px; display: inline-flex; gap: 22px; align-items: flex-end; }
+  .dark figcaption { color: #7d848f; }
+</style>
+</head>
+<body>
+
+  <div class="case">
+    <h2>A —— 一列建议（渐隐）</h2>
+    <p class="hint">最简：三条圆角条，越往下越淡，暗示"一串备选"。</p>
+    <div class="sizes">
+      <figure><svg width="128" height="128" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#4176e6"/><rect x="26" y="36" width="76" height="15" rx="7.5" fill="#fff" opacity=".95"/><rect x="26" y="57" width="60" height="15" rx="7.5" fill="#fff" opacity=".68"/><rect x="26" y="78" width="44" height="15" rx="7.5" fill="#fff" opacity=".42"/></svg><figcaption>128</figcaption></figure>
+      <figure><svg width="64" height="64" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#4176e6"/><rect x="26" y="36" width="76" height="15" rx="7.5" fill="#fff" opacity=".95"/><rect x="26" y="57" width="60" height="15" rx="7.5" fill="#fff" opacity=".68"/><rect x="26" y="78" width="44" height="15" rx="7.5" fill="#fff" opacity=".42"/></svg><figcaption>64</figcaption></figure>
+      <figure><svg width="32" height="32" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#4176e6"/><rect x="26" y="36" width="76" height="15" rx="7.5" fill="#fff" opacity=".95"/><rect x="26" y="57" width="60" height="15" rx="7.5" fill="#fff" opacity=".68"/><rect x="26" y="78" width="44" height="15" rx="7.5" fill="#fff" opacity=".42"/></svg><figcaption>32</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="case">
+    <h2>B —— 回复气泡 + 两条建议</h2>
+    <p class="hint">把"AI 回复"和"建议"画在一起，语义最完整。</p>
+    <div class="sizes">
+      <figure><svg width="128" height="128" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#141821"/><path d="M30 26h68a14 14 0 0 1 14 14v38a14 14 0 0 1-14 14H58l-20 18V92H30a14 14 0 0 1-14-14V40a14 14 0 0 1 14-14z" fill="#4176e6"/><rect x="32" y="44" width="58" height="11" rx="5.5" fill="#fff" opacity=".95"/><rect x="32" y="62" width="40" height="11" rx="5.5" fill="#fff" opacity=".62"/></svg><figcaption>128</figcaption></figure>
+      <figure><svg width="64" height="64" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#141821"/><path d="M30 26h68a14 14 0 0 1 14 14v38a14 14 0 0 1-14 14H58l-20 18V92H30a14 14 0 0 1-14-14V40a14 14 0 0 1 14-14z" fill="#4176e6"/><rect x="32" y="44" width="58" height="11" rx="5.5" fill="#fff" opacity=".95"/><rect x="32" y="62" width="40" height="11" rx="5.5" fill="#fff" opacity=".62"/></svg><figcaption>64</figcaption></figure>
+      <figure><svg width="32" height="32" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#141821"/><path d="M30 26h68a14 14 0 0 1 14 14v38a14 14 0 0 1-14 14H58l-20 18V92H30a14 14 0 0 1-14-14V40a14 14 0 0 1 14-14z" fill="#4176e6"/><rect x="32" y="44" width="58" height="11" rx="5.5" fill="#fff" opacity=".95"/><rect x="32" y="62" width="40" height="11" rx="5.5" fill="#fff" opacity=".62"/></svg><figcaption>32</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="case">
+    <h2>C —— 光标点在其中一条上</h2>
+    <p class="hint">最直白地表达"点一下"。</p>
+    <div class="sizes">
+      <figure><svg width="128" height="128" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#4176e6"/><rect x="22" y="28" width="84" height="17" rx="8.5" fill="#fff" opacity=".34"/><rect x="22" y="55" width="84" height="17" rx="8.5" fill="#fff"/><path d="M72 60l27 10.5-11 3.6-3.6 11z" fill="#141821" stroke="#fff" stroke-width="3.4" stroke-linejoin="round"/></svg><figcaption>128</figcaption></figure>
+      <figure><svg width="64" height="64" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#4176e6"/><rect x="22" y="28" width="84" height="17" rx="8.5" fill="#fff" opacity=".34"/><rect x="22" y="55" width="84" height="17" rx="8.5" fill="#fff"/><path d="M72 60l27 10.5-11 3.6-3.6 11z" fill="#141821" stroke="#fff" stroke-width="3.4" stroke-linejoin="round"/></svg><figcaption>64</figcaption></figure>
+      <figure><svg width="32" height="32" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#4176e6"/><rect x="22" y="28" width="84" height="17" rx="8.5" fill="#fff" opacity=".34"/><rect x="22" y="55" width="84" height="17" rx="8.5" fill="#fff"/><path d="M72 60l27 10.5-11 3.6-3.6 11z" fill="#141821" stroke="#fff" stroke-width="3.4" stroke-linejoin="round"/></svg><figcaption>32</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="case" style="border-bottom:none">
+    <h2>D —— 回复在上、建议按钮在下</h2>
+    <p class="hint">直接复刻插件真实的布局：一段回复，下面跟着两个按钮。</p>
+    <div class="sizes">
+      <figure><svg width="128" height="128" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#fff" stroke="#e4e7ee"/><rect x="26" y="26" width="76" height="11" rx="5.5" fill="#c7d0e2"/><rect x="26" y="44" width="56" height="11" rx="5.5" fill="#c7d0e2"/><rect x="26" y="70" width="76" height="20" rx="10" fill="#4176e6"/><rect x="26" y="96" width="52" height="20" rx="10" fill="#4176e6" opacity=".42"/></svg><figcaption>128</figcaption></figure>
+      <figure><svg width="64" height="64" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#fff" stroke="#e4e7ee"/><rect x="26" y="26" width="76" height="11" rx="5.5" fill="#c7d0e2"/><rect x="26" y="44" width="56" height="11" rx="5.5" fill="#c7d0e2"/><rect x="26" y="70" width="76" height="20" rx="10" fill="#4176e6"/><rect x="26" y="96" width="52" height="20" rx="10" fill="#4176e6" opacity=".42"/></svg><figcaption>64</figcaption></figure>
+      <figure><svg width="32" height="32" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#fff" stroke="#e4e7ee"/><rect x="26" y="26" width="76" height="11" rx="5.5" fill="#c7d0e2"/><rect x="26" y="44" width="56" height="11" rx="5.5" fill="#c7d0e2"/><rect x="26" y="70" width="76" height="20" rx="10" fill="#4176e6"/><rect x="26" y="96" width="52" height="20" rx="10" fill="#4176e6" opacity=".42"/></svg><figcaption>32</figcaption></figure>
+    </div>
+  </div>
+
+  <h2 style="margin-top:6px">深色主题下（DSH 有暗色）</h2>
+  <p class="hint">看哪个在深底上还立得住。</p>
+  <div class="dark">
+    <figure style="margin:0;text-align:center"><svg width="72" height="72" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#4176e6"/><rect x="26" y="36" width="76" height="15" rx="7.5" fill="#fff" opacity=".95"/><rect x="26" y="57" width="60" height="15" rx="7.5" fill="#fff" opacity=".68"/><rect x="26" y="78" width="44" height="15" rx="7.5" fill="#fff" opacity=".42"/></svg><figcaption>A</figcaption></figure>
+    <figure style="margin:0;text-align:center"><svg width="72" height="72" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#141821"/><path d="M30 26h68a14 14 0 0 1 14 14v38a14 14 0 0 1-14 14H58l-20 18V92H30a14 14 0 0 1-14-14V40a14 14 0 0 1 14-14z" fill="#4176e6"/><rect x="32" y="44" width="58" height="11" rx="5.5" fill="#fff" opacity=".95"/><rect x="32" y="62" width="40" height="11" rx="5.5" fill="#fff" opacity=".62"/></svg><figcaption>B</figcaption></figure>
+    <figure style="margin:0;text-align:center"><svg width="72" height="72" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#4176e6"/><rect x="22" y="28" width="84" height="17" rx="8.5" fill="#fff" opacity=".34"/><rect x="22" y="55" width="84" height="17" rx="8.5" fill="#fff"/><path d="M72 60l27 10.5-11 3.6-3.6 11z" fill="#141821" stroke="#fff" stroke-width="3.4" stroke-linejoin="round"/></svg><figcaption>C</figcaption></figure>
+    <figure style="margin:0;text-align:center"><svg width="72" height="72" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="#22252e"/><rect x="26" y="26" width="76" height="11" rx="5.5" fill="#6b7488"/><rect x="26" y="44" width="56" height="11" rx="5.5" fill="#6b7488"/><rect x="26" y="70" width="76" height="20" rx="10" fill="#4176e6"/><rect x="26" y="96" width="52" height="20" rx="10" fill="#4176e6" opacity=".55"/></svg><figcaption>D</figcaption></figure>
+  </div>
+
+</body>
+</html>

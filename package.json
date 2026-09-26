@@ -1,6 +1,6 @@
 {
   "name": "dsh-suggest-actions",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "类 Trae 体验，在 AI 回复后提供候选建议，点击后发送指令。Trae-style: candidate suggestions after each AI reply; click one to send the instruction.",
   "type": "module",
   "main": "lib/index.js",
@@ -10,6 +10,7 @@
     "./package.json": "./package.json"
   },
   "files": [
+    "assets/icon.svg",
     "lib",
     "cordis.patch.yml",
     "README.md",
@@ -54,5 +55,6 @@
   },
   "scripts": {
     "test": "node --test"
-  }
+  },
+  "icon": "assets/icon.svg"
 }

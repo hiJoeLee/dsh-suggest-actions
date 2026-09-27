@@ -171,3 +171,23 @@ test("多条推荐时都置顶，并保持它们之间的原顺序", () => {
 	], 3);
 	assert.deepEqual(out.map((a) => a.label), ["推荐一", "推荐二", "普通"]);
 });
+
+test("opensNewSession：只有显式 true 才带过来", () => {
+	assert.deepEqual(
+		normalizeActions([
+			{ label: "开新会话带过去", prompt: "交接说明", opensNewSession: true },
+			{ label: "普通一条", opensNewSession: "yes" }
+		], 3),
+		[{ label: "开新会话带过去", prompt: "交接说明", opensNewSession: true }, { label: "普通一条" }]
+	);
+});
+
+test("opensNewSession：只保留第一条，后面的丢掉", () => {
+	assert.deepEqual(
+		normalizeActions([
+			{ label: "甲", opensNewSession: true },
+			{ label: "乙", opensNewSession: true }
+		], 3),
+		[{ label: "甲", opensNewSession: true }]
+	);
+});

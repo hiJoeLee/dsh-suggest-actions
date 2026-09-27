@@ -81,3 +81,93 @@ test("prompt 缺省与显式给的区分：缺省时不带 prompt 字段", () =>
 	const [onlyLabel] = normalizeActions([{ label: "只有标签" }], 1);
 	assert.equal(Object.hasOwn(onlyLabel, "prompt"), false);
 });
+
+test("立场：合法值保留，非法值当作没给", () => {
+	assert.deepEqual(
+		normalizeActions([
+			{ angle: "standard", label: "A" },
+			{ angle: "激进", label: "B" },
+			{ angle: "bold", label: "C" }
+		], 3),
+		[{ angle: "standard", label: "A" }, { label: "B" }, { angle: "bold", label: "C" }]
+	);
+});
+
+test("同一立场只保留第一条（多角度是硬约束，不是自觉）", () => {
+	assert.deepEqual(
+		normalizeActions([
+			{ angle: "standard", label: "第一条常规" },
+			{ angle: "standard", label: "第二条常规" },
+			{ angle: "bold", label: "激进" }
+		], 3),
+		[{ angle: "standard", label: "第一条常规" }, { angle: "bold", label: "激进" }]
+	);
+});
+
+test("立场被重复挤掉后，不占用条数额度", () => {
+	const out = normalizeActions([
+		{ angle: "bold", label: "激进1" },
+		{ angle: "bold", label: "激进2" },
+		{ angle: "bold", label: "激进3" },
+		{ angle: "cautious", label: "保守" }
+	], 2);
+	assert.deepEqual(out.map((a) => a.label), ["激进1", "保守"]);
+});
+
+test("不给立场时照常工作（向后兼容）", () => {
+	assert.deepEqual(normalizeActions([{ label: "A" }, { label: "B" }], 2), [{ label: "A" }, { label: "B" }]);
+});
+
+test("三档齐全时保持原顺序", () => {
+	const out = normalizeActions([
+		{ angle: "cautious", label: "先验证" },
+		{ angle: "standard", label: "常规推进" },
+		{ angle: "bold", label: "直接上" }
+	], 3);
+	assert.deepEqual(out.map((a) => a.angle), ["cautious", "standard", "bold"]);
+});
+
+test("推荐项置顶：即使排在最后也会被提到第一位", () => {
+	const out = normalizeActions([
+		{ angle: "standard", label: "常规" },
+		{ angle: "bold", label: "激进" },
+		{ angle: "cautious", label: "保守", recommended: true }
+	], 3);
+	assert.deepEqual(out.map((a) => a.label), ["保守", "常规", "激进"]);
+});
+
+test("「可以不做」垫底：即使排在第一也会被压到最后", () => {
+	const out = normalizeActions([
+		{ angle: "stop", label: "先不动" },
+		{ angle: "standard", label: "常规" },
+		{ angle: "bold", label: "激进" }
+	], 3);
+	assert.deepEqual(out.map((a) => a.label), ["常规", "激进", "先不动"]);
+});
+
+test("先排序后截断：落在额度外的推荐项也能进来", () => {
+	const out = normalizeActions([
+		{ angle: "standard", label: "A" },
+		{ angle: "bold", label: "B" },
+		{ angle: "cautious", label: "C" },
+		{ angle: "alternative", label: "D", recommended: true }
+	], 2);
+	assert.deepEqual(out.map((a) => a.label), ["D", "A"]);
+});
+
+test("同时标推荐和「可以不做」时按推荐处理：置顶，不垫底", () => {
+	const out = normalizeActions([
+		{ angle: "standard", label: "常规" },
+		{ angle: "stop", label: "这事可以不做", recommended: true }
+	], 2);
+	assert.deepEqual(out.map((a) => a.label), ["这事可以不做", "常规"]);
+});
+
+test("多条推荐时都置顶，并保持它们之间的原顺序", () => {
+	const out = normalizeActions([
+		{ angle: "standard", label: "普通" },
+		{ angle: "bold", label: "推荐一", recommended: true },
+		{ angle: "cautious", label: "推荐二", recommended: true }
+	], 3);
+	assert.deepEqual(out.map((a) => a.label), ["推荐一", "推荐二", "普通"]);
+});

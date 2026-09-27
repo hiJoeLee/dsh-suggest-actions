@@ -13,7 +13,7 @@ This one takes a different route:
 |  | Composer completion | This plugin |
 |---|---|---|
 | Where | inside the composer | **under the reply** (turn tail) |
-| How many | one | **2-3** |
+| How many | one | **3 by default** (up to 5; the rest fold away) |
 | Who decides | the plugin guesses | **the model, from context** — it can offer "restart DSH so the buttons take effect", which a guesser cannot |
 | To accept | Tab, then Enter | **one click sends it** |
 | If unwanted | ignore it or press Esc | just don't look at it; it never occupies the composer |
@@ -34,6 +34,26 @@ Then **restart DSH and reload the page** — the host reads its plugin list only
   - a *renderer* on `conversation.chat.turnTail` — reads that memory and draws the buttons.
 - **Why the turn tail**: DSH folds "process" (thinking + tool calls) into a single collapsed line, so anything drawn inside a tool card is hidden by default. The turn tail sits outside that folding, so the buttons stay visible even when the process is collapsed.
 - **Clicking** goes through `conversation.input.shell(sessionId).actions` (set draft → submit) — the exact same path as typing the sentence and pressing Enter.
+
+## Stances and the recommended pick
+
+Two things were added on top of a plain list of sentences.
+
+**Stance.** Every suggestion carries one, and there are five: cautious (a smaller step — confirm before going further), standard (the normal next move along the current route), bold (same route, pushed faster and with more risk taken), alternative (the current approach is dropped), stop (this need not be done at all). A stance appears at most once per turn — repeats are dropped and the free slots go to other angles, so three suggestions that are really the same move never reach you. Three is the maximum; when only two are worth offering, you get two.
+
+The stance is **not drawn on the button**: it is a format constraint on the model. That is the point — telling a model "please offer different angles" is advice it can ignore, whereas a required field cannot be ignored.
+
+**Pick.** The model marks the one it would do first, independently of its position in the list — the marked entry is moved to the top and carries a small badge. Its background is the same as the other buttons; only hovering darkens it, like every other button. A `stop` entry ("this need not be done") is pushed to the bottom wherever it was given; the rest keep the order you gave. When the options are genuinely interchangeable, nothing is marked.
+
+**Hover a button** (or focus it with the keyboard) and it unfolds in place, showing the sentence that will actually be sent; move away and it folds back. The point is to keep "what you see" and "what gets sent" aligned — the label is a summary, and the sentence actually sent is usually longer. That sentence lives **outside the button** (a sibling element), so clicking it never sends anything — select and copy as you like.
+
+**All buttons share one width**, sized by the longest label rather than each one's own content: the arrows line up in a column, and a long instruction no longer stretches its button.
+
+**More than three**: only the first three are shown; the rest sit behind a single "N more" line that unfolds in place when clicked, and the unfolded ones are clickable too. The unfolded state is deliberately not remembered — scroll away and come back, and it is collapsed again.
+
+The few words the plugin draws itself ("Recommended", "N more", "Show less") follow the interface language: Chinese in a Chinese UI, English otherwise.
+
+Suggestions without a stance still render (backwards compatible).
 
 ## Limits
 

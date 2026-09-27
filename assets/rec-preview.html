@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>推荐项样式（去描边版）</title>
+<style>
+  body { margin: 0; padding: 22px 26px; background: #fff; color: #1a1a1a;
+         font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; -webkit-font-smoothing: antialiased; }
+  .prose { font-size: 15px; line-height: 1.6; margin: 0 0 12px; color: #6b7280; }
+  .stack { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  /* 与插件 CSS 一一对应：border:0，普通项 interactive-bg-hover，推荐项 interactive-bg-hover-accent */
+  .btn { display: inline-flex; align-items: center; gap: 10px; max-width: min(100%, 520px); box-sizing: border-box;
+         padding: 10px 14px; border: 0; border-radius: 12px; font: inherit; font-size: 13px; line-height: 1.5;
+         background: #2631480f; color: #1a1a1a; cursor: pointer; }
+  .btn.rec { background: #26314824; }
+  .rec-tag { flex: none; font-size: 11px; line-height: 1.7; padding: 0 7px; border-radius: 999px;
+             background: #4176e6; color: #fff; }
+  .arrow { flex: none; color: #8a8f98; }
+  .dark { background: #14161c; padding: 18px 20px 22px; border-radius: 14px; margin-top: 20px; }
+  .dark .prose { color: #8b93a1; }
+  .dark .btn { background: #ffffff14; color: #f0f0f0; }
+  .dark .btn.rec { background: #ffffff24; }
+  .dark .arrow { color: #7d848f; }
+</style>
+</head>
+<body>
+  <p class="prose">浅色主题 —— 上：推荐项（浅蓝底 + 胶囊，无描边）；下：普通项</p>
+  <div class="stack">
+    <button class="btn rec">重启，让新样式和压缩一起生效 <span class="rec-tag">推荐</span> <span class="arrow">→</span></button>
+    <button class="btn">先把 0.1.4 发出去 <span class="arrow">→</span></button>
+  </div>
+
+  <div class="dark">
+    <p class="prose">暗色主题 —— 同样两条</p>
+    <div class="stack">
+      <button class="btn rec">重启，让新样式和压缩一起生效 <span class="rec-tag">推荐</span> <span class="arrow">→</span></button>
+      <button class="btn">先把 0.1.4 发出去 <span class="arrow">→</span></button>
+    </div>
+  </div>
+</body>
+</html>

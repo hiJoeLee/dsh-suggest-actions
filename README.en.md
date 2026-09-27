@@ -6,7 +6,7 @@ It answers "I've read it, now should it do A or B": instead of composing the sen
 
 ## Not the same thing as "composer completion"
 
-There are already a few "next sentence" plugins (`dsh-input-assist`, `dsh-prompt-for-me`, `dsh-suggest-ghost`). They all live **inside the composer** as ghost text: the plugin guesses what you might say, offers one line, you accept with Tab, then **press Enter yourself**.
+There are already a few "next sentence" plugins (`dsh-suggest-prompt`, `dsh-prompt-for-me`, `dsh-suggest-ghost`, `dsh-input-assist`). They all live **inside the composer** as ghost text: they fire an **extra model call** to guess what you would say, offer one line, you accept with Tab, then **press Enter yourself**.
 
 This one takes a different route:
 
@@ -15,6 +15,7 @@ This one takes a different route:
 | Where | inside the composer | **under the reply** (turn tail) |
 | How many | one | **3 by default** (up to 5; the rest fold away) |
 | Who decides | the plugin guesses | **the model, from context** — it can offer "restart DSH so the buttons take effect", which a guesser cannot |
+| Extra cost | **an extra model call** (a separate request to guess) | **no extra call** — the suggestions ride along as the main model closes its turn |
 | To accept | Tab, then Enter | **one click sends it** |
 | If unwanted | ignore it or press Esc | just don't look at it; it never occupies the composer |
 

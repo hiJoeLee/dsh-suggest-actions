@@ -66,8 +66,20 @@ test("maxActions 非法或越界时夹到 1..6", () => {
 	assert.equal(normalizeActions(many, -5).length, 1, "负数 → 夹到 1");
 	assert.equal(normalizeActions(many, 99).length, 6, "99 → 夹到 6");
 	assert.equal(normalizeActions(many, 2.7).length, 2, "小数 → 向下取整");
-	assert.equal(normalizeActions(many, Number.NaN).length, 3, "NaN → 默认 3");
-	assert.equal(normalizeActions(many, undefined).length, 3, "未给 → 默认 3");
+	assert.equal(normalizeActions(many, Number.NaN).length, 5, "NaN → 默认 5");
+	assert.equal(normalizeActions(many, undefined).length, 5, "未给 → 默认 5");
+	assert.equal(normalizeActions(many).length, 5, "省略参数 → 默认 5");
+});
+
+test("默认上限 5：五档立场齐全时一条都不丢（原来默认 3 会砍掉后两条）", () => {
+	const out = normalizeActions([
+		{ angle: "standard", label: "常规" },
+		{ angle: "bold", label: "更用力" },
+		{ angle: "cautious", label: "先验证" },
+		{ angle: "alternative", label: "换条路" },
+		{ angle: "stop", label: "可以不做" }
+	]);
+	assert.deepEqual(out.map((a) => a.label), ["常规", "更用力", "先验证", "换条路", "可以不做"]);
 });
 
 test("prompt 为空白视为未给，整项只剩 label", () => {

@@ -13,7 +13,7 @@ This one takes a different route:
 |  | Composer completion | This plugin |
 |---|---|---|
 | Where | inside the composer | **under the reply** (turn tail) |
-| How many | one | **3 by default** (up to 5; the rest fold away) |
+| How many | one | **up to 5 by default** (the first 3 show; the rest unfold behind "N more") |
 | Who decides | the plugin guesses | **the model, from context** — it can offer "restart DSH so the buttons take effect", which a guesser cannot |
 | Extra cost | **an extra model call** (a separate request to guess) | **no extra call** — the suggestions ride along as the main model closes its turn |
 | To accept | Tab, then Enter | **one click sends it** |
@@ -29,7 +29,7 @@ Then **restart DSH and reload the page** — the host reads its plugin list only
 
 ## How it works
 
-- **Host side**: registers a non-blocking `suggest_actions` tool. It returns immediately — the model calls it once to close a turn, passing 2-3 suggestions.
+- **Host side**: registers a non-blocking `suggest_actions` tool. It returns immediately — the model calls it once to close a turn, passing 2-5 suggestions.
 - **Client side** draws in two places:
   - a *silent collector* on `tool.call.toolview` — records the suggestions into plugin memory and renders nothing;
   - a *renderer* on `conversation.chat.turnTail` — reads that memory and draws the buttons.
@@ -40,7 +40,7 @@ Then **restart DSH and reload the page** — the host reads its plugin list only
 
 Two things were added on top of a plain list of sentences.
 
-**Stance.** Every suggestion carries one, and there are five: cautious (a smaller step — confirm before going further), standard (the normal next move along the current route), bold (same route, pushed faster and with more risk taken), alternative (the current approach is dropped), stop (this need not be done at all). A stance appears at most once per turn — repeats are dropped and the free slots go to other angles, so three suggestions that are really the same move never reach you. Three is the maximum; when only two are worth offering, you get two.
+**Stance.** Every suggestion carries one, and there are five: cautious (a smaller step — confirm before going further), standard (the normal next move along the current route), bold (same route, pushed faster and with more risk taken), alternative (the current approach is dropped), stop (this need not be done at all). A stance appears at most once per turn — repeats are dropped and the free slots go to other angles, so three suggestions that are really the same move never reach you. Five is the maximum (one per stance); when only two are worth offering, you get two.
 
 The stance is **not drawn on the button**: it is a format constraint on the model. That is the point — telling a model "please offer different angles" is advice it can ignore, whereas a required field cannot be ignored.
 
@@ -50,7 +50,7 @@ The stance is **not drawn on the button**: it is a format constraint on the mode
 
 **All buttons share one width**, sized by the longest label rather than each one's own content: the arrows line up in a column, and a long instruction no longer stretches its button.
 
-**More than three**: only the first three are shown; the rest sit behind a single "N more" line that unfolds in place when clicked, and the unfolded ones are clickable too. The unfolded state is deliberately not remembered — scroll away and come back, and it is collapsed again.
+**More than three**: up to 5 per turn by default; only the first three are shown, and the rest sit behind a single "N more" line that unfolds in place when clicked, and the unfolded ones are clickable too. The unfolded state is deliberately not remembered — scroll away and come back, and it is collapsed again.
 
 The few words the plugin draws itself ("Recommended", "N more", "Show less") follow the interface language: Chinese in a Chinese UI, English otherwise.
 

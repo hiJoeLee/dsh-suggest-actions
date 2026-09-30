@@ -13,7 +13,7 @@ This one takes a different route:
 |  | Composer completion | This plugin |
 |---|---|---|
 | Where | inside the composer | **under the reply** (turn tail) |
-| How many | one | **up to 5 by default** (the first 3 show; the rest unfold behind "N more") |
+| How many | one | **up to 5 by default**, all shown (extra ones fold away only if you raise the cap) |
 | Who decides | the plugin guesses | **the model, from context** — it can offer "restart DSH so the buttons take effect", which a guesser cannot |
 | Extra cost | **an extra model call** (a separate request to guess) | **no extra call** — the suggestions ride along as the main model closes its turn |
 | To accept | Tab, then Enter | **one click sends it** |
@@ -50,7 +50,7 @@ The stance is **not drawn on the button**: it is a format constraint on the mode
 
 **All buttons share one width**, sized by the longest label rather than each one's own content: the arrows line up in a column, and a long instruction no longer stretches its button.
 
-**More than three**: up to 5 per turn by default; only the first three are shown, and the rest sit behind a single "N more" line that unfolds in place when clicked, and the unfolded ones are clickable too. The unfolded state is deliberately not remembered — scroll away and come back, and it is collapsed again.
+**All shown by default**: the per-turn cap is 5 (one per stance), and all of them render at once. The folding code is still there, but its threshold (5) equals the cap, so it normally never fires; raise the cap to 6 and the extra entry folds into a single "N more" line that unfolds in place when clicked — the unfolded ones are clickable too. The unfolded state is deliberately not remembered — scroll away and come back, and it is collapsed again.
 
 The few words the plugin draws itself ("Recommended", "N more", "Show less") follow the interface language: Chinese in a Chinese UI, English otherwise.
 

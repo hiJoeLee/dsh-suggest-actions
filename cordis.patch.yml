@@ -2,6 +2,12 @@
 #
 # 持久插件挂载层（dsh.bundle.patch）：让 DSH 的 bundle 协调在启动时把下面
 # 这一行合并进 loader——插件包本身不往 profile 里塞任何手写配置。
+#
+# `config.maxActions` 显式写成 5（2026-09-30）：代码里的默认值也是 5，
+# 这里再写一遍是双保险——排查"上限改了却没生效"时，显式配置能绕开
+# "host 到底加载了哪一版代码"的不确定性（新旧代码都读这个字段）。
 - insert:
     - id: suggest-actions
       name: 'dsh-suggest-actions'
+      config:
+        maxActions: 5

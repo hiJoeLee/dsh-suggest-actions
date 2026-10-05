@@ -15,7 +15,7 @@
 **历史状态（2026-09-27，未复核，留作对照）**：0.1.4 已提交到 GitHub、已发到 npm（09:30）。本机桌面端当时装的是 npm 上的 0.1.5 副本（profile 里声明 `^0.1.5`），**不是这个源码目录**——改完源码要把 `lib/` 与 `package.json` 同步过去、再重启 DSH 才生效。2026-09-27 实测踩到：只改源码目录就重启，桌面端仍旧跑旧代码，`suggest_actions` 的参数里根本没有新字段。
 
 **市场收录**：DSH 插件市场照一份精选目录收（awesome-dsh-plugin），**不按 npm 自动发现**——这个包原先不在那份目录里。收录条目在 `data/plugins/hiJoeLee__dsh-suggest-actions.yml`，本仓库这一份与线上内容逐字节一致（6 行，与对方仓库里其它条目同构）；**上架 PR 已于 2026-09-27 晚提出、2026-10-05 合并**：
-<https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/5991>（1 个文件；仓库的 `dsh-plugin` topic 也已加上）。**进展统一记在上面的「当前状态」，这里不重复第二份。**
+<https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/5991>（1 个文件；仓库的 `dsh-plugin` topic 也已加上）。**进展统一记在上面的「当前状态」，这里不重复第二份。**2026-10-06 03:45 在 PR 底下回过一句谢谢（已看到条目上线）：<https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/5991#issuecomment-6001758825>
 
 ---
 

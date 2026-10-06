@@ -4,6 +4,8 @@ Clickable **next-step suggestions** under every reply in DeepSeek Harness. One c
 
 It answers "I've read it, now should it do A or B": instead of composing the sentence yourself, just click it.
 
+<img src="assets/turn.en.png" alt="A row of suggestion buttons under a reply: the recommended one is moved to the top, and hovering a button unfolds the sentence that will actually be sent">
+
 ## Not the same thing as "composer completion"
 
 There are already a few "next sentence" plugins (`dsh-suggest-prompt`, `dsh-prompt-for-me`, `dsh-suggest-ghost`, `dsh-input-assist`). They all live **inside the composer** as ghost text: they fire an **extra model call** to guess what you would say, offer one line, you accept with Tab, then **press Enter yourself**.

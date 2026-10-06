@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>suggest-actions 效果图</title>
+<style>
+  /* 数值与 lib/client.js 里的 CSS 一一对应：
+     .dsh-suggest-btn        padding 10px 14px / radius 10px / 13px / bg #f1f2f4 / hover #e4e6ea
+     .dsh-suggest-rec        11px / padding 0 7px / radius 999px / bg #4176e6
+     .dsh-suggest-tag        11px / padding 0 7px / radius 999px / bg #e4e6ea / color #6b6f76
+     .dsh-suggest-full       12px / line-height 1.6 / color #6b6f76（悬停时展开）
+     .dsh-suggest-arrow      color #6b6f76 / opacity .7
+     页面底色透明，卡片是白底——放进 README 后深浅主题都不突兀。 */
+  html, body { margin: 0; padding: 0; background: transparent; }
+  body { padding: 22px; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+         -webkit-font-smoothing: antialiased; }
+  .card { box-sizing: border-box; width: 700px; padding: 26px 28px 28px; background: #fff;
+          border: 1px solid #e7e8ea; border-radius: 14px; }
+
+  .reply { font-size: 15px; line-height: 1.65; color: #1a1a1a; margin: 0 0 18px; max-width: 600px; }
+
+  .dsh-suggest { display: grid; grid-template-columns: max-content; align-items: start; gap: 10px; padding: 4px 0 2px; }
+  .dsh-suggest-item { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .dsh-suggest-btn { display: flex; flex-direction: column; gap: 4px; align-items: stretch; width: 100%;
+                     max-width: min(100%, 520px); box-sizing: border-box; padding: 10px 14px; border: 0;
+                     border-radius: 10px; background: #f1f2f4; color: #1a1a1a; font: inherit; font-size: 13px;
+                     line-height: 1.5; text-align: left; }
+  .dsh-suggest-row { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .dsh-suggest-label { flex: 1; min-width: 0; }
+  .dsh-suggest-btn[data-recommended] { font-weight: 600; }
+  .dsh-suggest-rec { flex: none; font-size: 11px; line-height: 1.7; padding: 0 7px; border-radius: 999px;
+                     background: #4176e6; color: #fff; }
+  .dsh-suggest-tag { flex: none; font-size: 11px; line-height: 1.7; padding: 0 7px; border-radius: 999px;
+                     background: #e4e6ea; color: #6b6f76; }
+  .dsh-suggest-arrow { flex: none; color: #6b6f76; opacity: .7; }
+  .dsh-suggest-full { color: #6b6f76; font-size: 12px; line-height: 1.6; }
+  /* 图上只用这一条表现"悬停"这一态 */
+  .is-hover .dsh-suggest-btn { background: #e4e6ea; }
+  .is-hover .dsh-suggest-full { display: block; }
+  .dsh-suggest-full { display: none; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <p class="reply" id="reply"></p>
+    <div class="dsh-suggest" id="stack"></div>
+  </div>
+
+<script>
+  const LANG = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "zh";
+  const COPY = {
+    zh: {
+      reply: "两处都改好了，24 项单测全过。要我提交吗？",
+      items: [
+        { label: "提交并重启，让按钮生效", recommended: true },
+        { label: "先把改动提交，重启我自己来", hover: true,
+          full: "先把这次改动提交上去，重启我就自己来，你提交完告诉我就行" },
+        { label: "把这次改动写进更新日志" },
+        { label: "开个新会话，只带结论过去", newSession: true }
+      ],
+      recommended: "推荐",
+      newSession: "新会话"
+    },
+    en: {
+      reply: "Both places are updated, all 24 tests pass. Want me to commit?",
+      items: [
+        { label: "Commit and restart so the buttons go live", recommended: true },
+        { label: "Just commit it, I'll restart myself", hover: true,
+          full: "Commit the change now; I'll handle the restart myself — tell me when it's done" },
+        { label: "Add this change to the changelog" },
+        { label: "Open a new session with just the conclusion", newSession: true }
+      ],
+      recommended: "Recommended",
+      newSession: "New session"
+    }
+  }[LANG];
+
+  const arrow = "\u2192";
+  document.getElementById("reply").textContent = COPY.reply;
+  const stack = document.getElementById("stack");
+
+  for (const item of COPY.items) {
+    const wrap = document.createElement("div");
+    wrap.className = "dsh-suggest-item" + (item.hover ? " is-hover" : "");
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "dsh-suggest-btn";
+    if (item.recommended) btn.setAttribute("data-recommended", "");
+
+    const row = document.createElement("span");
+    row.className = "dsh-suggest-row";
+
+    const label = document.createElement("span");
+    label.className = "dsh-suggest-label";
+    label.textContent = item.label;
+    row.appendChild(label);
+
+    if (item.newSession) {
+      const tag = document.createElement("span");
+      tag.className = "dsh-suggest-tag";
+      tag.textContent = COPY.newSession;
+      row.appendChild(tag);
+    }
+    if (item.recommended) {
+      const rec = document.createElement("span");
+      rec.className = "dsh-suggest-rec";
+      rec.textContent = COPY.recommended;
+      row.appendChild(rec);
+    }
+    const tail = document.createElement("span");
+    tail.className = "dsh-suggest-arrow";
+    tail.textContent = arrow;
+    row.appendChild(tail);
+
+    btn.appendChild(row);
+    wrap.appendChild(btn);
+
+    if (item.full) {
+      const full = document.createElement("span");
+      full.className = "dsh-suggest-full";
+      full.textContent = item.full;
+      wrap.appendChild(full);
+    }
+    stack.appendChild(wrap);
+  }
+</script>
+</body>
+</html>

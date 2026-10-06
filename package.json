@@ -11,6 +11,8 @@
   },
   "files": [
     "assets/icon.svg",
+    "assets/turn.zh.png",
+    "assets/turn.en.png",
     "lib",
     "cordis.patch.yml",
     "README.md",

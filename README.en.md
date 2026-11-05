@@ -1,6 +1,6 @@
 # dsh-suggest-actions
 
-Clickable **next-step suggestions** under every reply in DeepSeek Harness. One click sends that text as your message — no typing.
+Clickable **next-step suggestions** under every reply in DeepSeek Harness. One click sends that text as your message — no typing. Each suggestion also has a small fill button on its right: it only puts that sentence into the composer, so you can edit it before sending.
 
 It answers "I've read it, now should it do A or B": instead of composing the sentence yourself, just click it.
 
@@ -18,7 +18,7 @@ This one takes a different route:
 | How many | one | **up to 5 by default**, all shown (extra ones fold away only if you raise the cap) |
 | Who decides | the plugin guesses | **the model, from context** — it can offer "restart DSH so the buttons take effect", which a guesser cannot |
 | Extra cost | **an extra model call** (a separate request to guess) | **no extra call** — the suggestions ride along as the main model closes its turn |
-| To accept | Tab, then Enter | **one click sends it** |
+| To accept | Tab, then Enter | **one click sends it**; the small button on the right fills the composer so you can edit first |
 | If unwanted | ignore it or press Esc | just don't look at it; it never occupies the composer |
 
 ## Install
@@ -52,6 +52,8 @@ The stance is **not drawn on the button**: it is a format constraint on the mode
 
 **All buttons share one width**, sized by the longest label rather than each one's own content: the arrows line up in a column, and a long instruction no longer stretches its button.
 
+**A fill button sits to the right of every suggestion (since 0.1.11; input-field icon).** Clicking it does **not** send: it clears the composer, drops the sentence in, and returns the caret — edit a few words, then press Enter. Use it when the suggestion is roughly right but the wording is not.
+
 **All shown by default**: the per-turn cap is 5 (one per stance), and all of them render at once. The folding code is still there, but its threshold (5) equals the cap, so it normally never fires; raise the cap to 6 and the extra entry folds into a single "N more" line that unfolds in place when clicked — the unfolded ones are clickable too. The unfolded state is deliberately not remembered — scroll away and come back, and it is collapsed again.
 
 The few words the plugin draws itself ("Recommended", "N more", "Show less") follow the interface language: Chinese in a Chinese UI, English otherwise.
@@ -62,7 +64,7 @@ Suggestions without a stance still render (backwards compatible).
 
 - Requires the DSH **0.1.7** line (`conversation.chat.turnTail`, `conversation.input.shell`, `tool.call.toolview`).
 - Button text comes from the model; keep labels under ~20 characters or they look heavy.
-- A click sends immediately, with no confirmation — by design, not by oversight.
+- A click sends immediately, with no confirmation — by design, not by oversight. To review or edit first, use the fill button on the right.
 - Rapid clicks are debounced for ~0.9s.
 
 ## License

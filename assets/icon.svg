@@ -1,11 +1,13 @@
 <!--
-  dsh-suggest-actions 图标 —— 方案 A「一列渐隐建议」（2026-09-26 由用户选定）
-  品牌蓝取自 DSH 主题里的 --dsw-alias-brand-primary（#4176e6），
-  所以放进界面不会有异物感。三条圆角条向下渐隐，暗示"一串可点的备选"。
+  dsh-suggest-actions 图标 —— 带光标的输入框（2026-11-06 换标）
+  与 0.1.13 起建议按钮里的「填入」图标同构：一个圆角输入框 + 左侧光标。
+  含义直接：点一下，这句话就被放进输入框。
+  品牌蓝 #4176e6 取自 DSH 主题的 brand-primary，放进界面不会有异物感。
+  注意：本文件的 XML 注释里不能出现两个连续的短横线（会让标准解析器报错），
+  所以上面提到主题变量名时省略了它前缀的那两个短横线。
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="dsh-suggest-actions">
   <rect width="128" height="128" rx="28" fill="#4176e6"/>
-  <rect x="26" y="36" width="76" height="15" rx="7.5" fill="#ffffff" opacity="0.95"/>
-  <rect x="26" y="57" width="60" height="15" rx="7.5" fill="#ffffff" opacity="0.68"/>
-  <rect x="26" y="78" width="44" height="15" rx="7.5" fill="#ffffff" opacity="0.42"/>
+  <rect x="22" y="36" width="84" height="56" rx="15" fill="none" stroke="#ffffff" stroke-width="9"/>
+  <path d="M47 50v28" fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round"/>
 </svg>

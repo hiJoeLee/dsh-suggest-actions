@@ -1,25 +1,27 @@
 # dsh-suggest-actions
 
-Clickable **next-step suggestions** under every reply in DeepSeek Harness. One click sends that text as your message — no typing. Each suggestion also has a small fill button on its right: it only puts that sentence into the composer, so you can edit it before sending.
+<img src="assets/icon.svg" width="96" alt="icon">
 
-It answers "I've read it, now should it do A or B": instead of composing the sentence yourself, just click it.
+Attaches the model's recommended next steps to the end of every reply in DeepSeek Harness. A click sends that sentence as your message; alternatively, fill it into the composer and edit before sending.
 
 <img src="assets/turn.en.png" alt="A row of suggestion buttons under a reply: the recommended one is moved to the top, and hovering a button unfolds the sentence that will actually be sent">
 
-## Not the same thing as "composer completion"
+## Features
 
-There are already a few "next sentence" plugins (`dsh-suggest-prompt`, `dsh-prompt-for-me`, `dsh-suggest-ghost`, `dsh-input-assist`). They all live **inside the composer** as ghost text: they fire an **extra model call** to guess what you would say, offer one line, you accept with Tab, then **press Enter yourself**.
+- **Up to 5 suggestions per turn**, all rendered at once — no expanding, no shortcuts.
+- **Click a suggestion to send it**: equivalent to typing the sentence and pressing Enter.
+- **The button on the right fills without sending**: it places the sentence in the composer (clearing the previous draft) and returns the caret; you edit and send.
+- **Hover to unfold the full text** (focus with the keyboard): the button shows a summary; the complete content unfolds in place.
+- **Recommended on top**: the entry the model would do first is moved to the first slot and badged; a "stop" suggestion always sits last.
+- **Angles are de-duplicated**: each suggestion carries one stance (cautious, standard, bold, alternative, stop); repeated stances in a turn are dropped.
+- **"New session" suggestions**: one click creates a session in the same working directory and puts the text into its composer without sending.
+- **No extra model call**: the suggestions are produced by the main model as it closes the turn.
 
-This one takes a different route:
+## Why it matters
 
-|  | Composer completion | This plugin |
-|---|---|---|
-| Where | inside the composer | **under the reply** (turn tail) |
-| How many | one | **up to 5 by default**, all shown (extra ones fold away only if you raise the cap) |
-| Who decides | the plugin guesses | **the model, from context** — it can offer "restart DSH so the buttons take effect", which a guesser cannot |
-| Extra cost | **an extra model call** (a separate request to guess) | **no extra call** — the suggestions ride along as the main model closes its turn |
-| To accept | Tab, then Enter | **one click sends it**; the small button on the right fills the composer so you can edit first |
-| If unwanted | ignore it or press Esc | just don't look at it; it never occupies the composer |
+It removes the step of composing the sentence yourself. After reading a reply you usually already know whether A or B comes next — click the matching suggestion instead. The model proposes concrete actions from context (for example, "restart DSH so the buttons take effect"); if the wording needs adjusting, use the right-hand button to put it in the composer.
+
+Compared with composer-completion plugins: those place a single ghost text inside the composer, require an extra model call to guess it, and still need Tab plus Enter. This plugin offers complete, context-aware actions below the reply, outside the composer, without an additional model call.
 
 ## Install
 
@@ -27,45 +29,36 @@ This one takes a different route:
 dsh plugin --profile desktop add dsh-suggest-actions
 ```
 
-Then **restart DSH and reload the page** — the host reads its plugin list only at startup, and the client bundle has to be re-fetched. Both steps matter.
+Then **restart DSH and reload the page**: the host reads its plugin list only at startup, and the client bundle must be re-fetched. Both steps are required.
 
 ## How it works
 
-- **Host side**: registers a non-blocking `suggest_actions` tool. It returns immediately — the model calls it once to close a turn, passing 2-5 suggestions.
-- **Client side** draws in two places:
-  - a *silent collector* on `tool.call.toolview` — records the suggestions into plugin memory and renders nothing;
-  - a *renderer* on `conversation.chat.turnTail` — reads that memory and draws the buttons.
-- **Why the turn tail**: DSH folds "process" (thinking + tool calls) into a single collapsed line, so anything drawn inside a tool card is hidden by default. The turn tail sits outside that folding, so the buttons stay visible even when the process is collapsed.
-- **Clicking** goes through `conversation.input.shell(sessionId).actions` (set draft → submit) — the exact same path as typing the sentence and pressing Enter.
+- **Host side** registers a non-blocking `suggest_actions` tool: the model calls it once as it closes a turn, passing 2–5 suggestions, and the turn ends normally.
+- **Client side** renders in two places: a silent collector on `tool.call.toolview` records the suggestions without rendering; a renderer on `conversation.chat.turnTail` reads them and draws the buttons.
+- **Why the turn tail**: DSH folds thinking and tool calls into a single collapsed line, so anything drawn inside a tool card is hidden by default. The turn tail sits outside that folding, so the buttons remain visible when the process is collapsed.
+- **Clicking** goes through `conversation.input.shell(sessionId).actions` (set draft, then submit) — the same path as typing the sentence and pressing Enter.
+- **Stances are a format constraint**: every suggestion must carry one, and repeated stances are dropped. "Please offer different angles" in a prompt can be ignored; a required field cannot.
+- **Buttons share one width**, sized by the longest label, so the arrows align in a column and a long instruction does not stretch its button.
 
-## Stances and the recommended pick
+## Configuration and limits
 
-Two things were added on top of a plain list of sentences.
+**Per-turn cap**: 5 by default. Set it in the plugin's own bundle patch. Do not put it in the profile's `cordis.patch.yml` — that patch is applied before the plugin's insert line exists, so the row is silently ignored. Restart DSH afterwards.
 
-**Stance.** Every suggestion carries one, and there are five: cautious (a smaller step — confirm before going further), standard (the normal next move along the current route), bold (same route, pushed faster and with more risk taken), alternative (the current approach is dropped), stop (this need not be done at all). A stance appears at most once per turn — repeats are dropped and the free slots go to other angles, so three suggestions that are really the same move never reach you. Five is the maximum (one per stance); when only two are worth offering, you get two.
+```yaml
+- insert:
+    - id: suggest-actions
+      name: 'dsh-suggest-actions'
+      config:
+        maxActions: 2     # 1-6; extra entries are dropped
+```
 
-The stance is **not drawn on the button**: it is a format constraint on the model. That is the point — telling a model "please offer different angles" is advice it can ignore, whereas a required field cannot be ignored.
+**Limits**: requires DSH 0.1.7 and later; labels are generated by the model and look heavy beyond ~20 characters; a click sends immediately with no confirmation, so use the fill button when editing is needed; clicks are debounced for ~0.9s.
 
-**Pick.** The model marks the one it would do first, independently of its position in the list — the marked entry is moved to the top and carries a small badge. Its background is the same as the other buttons; only hovering darkens it, like every other button. A `stop` entry ("this need not be done") is pushed to the bottom wherever it was given; the rest keep the order you gave. When the options are genuinely interchangeable, nothing is marked.
+**Interface words and compatibility**: "Recommended", "N more" and "Show less" follow the interface language; suggestions without a stance still render (backwards compatible). Historical turns occasionally show one extra copy of the latest suggestions — a deliberate trade-off: better a rare duplicate than a latest turn without buttons.
 
-**Hover a button** (or focus it with the keyboard) and it unfolds in place, showing the sentence that will actually be sent; move away and it folds back. The point is to keep "what you see" and "what gets sent" aligned — the label is a summary, and the sentence actually sent is usually longer. That sentence lives **outside the button** (a sibling element), so clicking it never sends anything — select and copy as you like.
+## Development
 
-**All buttons share one width**, sized by the longest label rather than each one's own content: the arrows line up in a column, and a long instruction no longer stretches its button.
-
-**A fill button sits to the right of every suggestion (since 0.1.11; input-field icon).** Clicking it does **not** send: it clears the composer, drops the sentence in, and returns the caret — edit a few words, then press Enter. Use it when the suggestion is roughly right but the wording is not.
-
-**All shown by default**: the per-turn cap is 5 (one per stance), and all of them render at once. The folding code is still there, but its threshold (5) equals the cap, so it normally never fires; raise the cap to 6 and the extra entry folds into a single "N more" line that unfolds in place when clicked — the unfolded ones are clickable too. The unfolded state is deliberately not remembered — scroll away and come back, and it is collapsed again.
-
-The few words the plugin draws itself ("Recommended", "N more", "Show less") follow the interface language: Chinese in a Chinese UI, English otherwise.
-
-Suggestions without a stance still render (backwards compatible).
-
-## Limits
-
-- Requires the DSH **0.1.7** line (`conversation.chat.turnTail`, `conversation.input.shell`, `tool.call.toolview`).
-- Button text comes from the model; keep labels under ~20 characters or they look heavy.
-- A click sends immediately, with no confirmation — by design, not by oversight. To review or edit first, use the fill button on the right.
-- Rapid clicks are debounced for ~0.9s.
+`pnpm test` runs 24 unit tests with no external dependencies. `lib/normalize.js` holds the cleaning rules (whitespace, duplicates, stances, ordering, cap); `lib/index.js` registers the tool and reads config; `lib/client.js` only records the list and renders the UI.
 
 ## License
 
